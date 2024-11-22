@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -o k8s --secrets-as-files --build local -v
+    kompose.version: 1.34.0 (HEAD)
+  labels:
+    io.kompose.service: core-service
+  name: core-service
+spec:
+  containers:
+    - env:
+        - name: APPLICATION_ID
+          value: e9fdb985-9173-4e01-9d73-ac2d60d1dc8e
+      image: lukenbuken/core-service:latest
+      livenessProbe:
+        exec:
+          command:
+            - "sh"
+            - "-c"
+            - "curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8000/healthcheck"
+      name: coreservice
+      ports:
+        - containerPort: 8000
+          protocol: TCP
+      tty: true
+  restartPolicy: OnFailure
