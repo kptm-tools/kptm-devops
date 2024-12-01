@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webui-deployment
+  labels:
+    app: kptmtools
+    type: front-end
+
+spec:
+  template:
+    metadata:
+      name: webui-pod
+      labels:
+        app: kptmtools
+        type: front-end
+    spec:
+      containers:
+        - name: webui-container
+          image: ghcr.io/kptm-tools/web_ui:dev
+  replicas: 3
+  selector:
+    matchLabels:
+      type: front-end
+
