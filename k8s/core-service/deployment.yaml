@@ -20,6 +20,32 @@ spec:
       containers:
         - name: core-service-container
           image: ghcr.io/kptm-tools/core_service:dev
+          env:
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: core-service-config
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: core-service-config
+                  key: DB_PASSWORD
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: core-service-config
+                  key: DB_NAME
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: core-service-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: core-service-config
+                  key: DB_PORT
           livenessProbe:
             exec:
               command:
